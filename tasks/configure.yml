@@ -1,0 +1,32 @@
+---
+- name: Ignore all recommended packages as default
+  copy:
+    src: files/01lean
+    dest: /etc/apt/apt.conf.d/01lean
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Protect importan recommended packages from removal
+  apt:
+    name: ca-certificates
+
+- name: Remove any previously recommended package
+  shell: apt-get autoremove --purge --yes --force-yes
+
+- name: Remove systemd and dbus
+  apt:
+    name: "{{ item }}"
+    state: absent
+    purge: yes
+  with_items:
+    - systemd
+    - systemd-shim
+    - libsystemd0
+    - dbus
+
+- name: Remove recommends and orphaned packages again
+  shell: apt-get autoremove --purge --yes --force-yes
+
+- name: Remove unused package caches
+  shell: apt-get autoclean --yes --force-yes
