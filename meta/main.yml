@@ -4,10 +4,11 @@ galaxy_info:
   company: your company (optional)
   license: MIT
   min_ansible_version: 1.9
-  dependencies: []
   platforms:
   - name: Debian
     versions:
     - wheezy
   galaxy_tags:
     - devuan
+
+dependencies: []
